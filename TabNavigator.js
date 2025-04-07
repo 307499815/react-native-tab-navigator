@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
+  Animated
 } from 'react-native';
 
 import Badge from './Badge';
@@ -63,7 +64,7 @@ export default class TabNavigator extends React.Component {
   }
 
   render() {
-    let { style, children, tabBarStyle, tabBarShadowStyle, sceneStyle, ...props } = this.props;
+    let { style, children, tabBarStyle, tabBarShadowStyle, sceneStyle, animatedDuration, ...props } = this.props;
     let scenes = [];
 
     React.Children.forEach(children, (item, index) => {
@@ -77,7 +78,7 @@ export default class TabNavigator extends React.Component {
 
       let { selected } = item.props;
       let scene =
-        <SceneContainer key={sceneKey} selected={selected} style={sceneStyle}>
+        <SceneContainer key={sceneKey} selected={selected} style={sceneStyle} duration={animatedDuration}>
           {item}
         </SceneContainer>;
 
@@ -142,29 +143,49 @@ export default class TabNavigator extends React.Component {
     );
   }
 }
-
 class SceneContainer extends React.Component {
   static propTypes = {
     ...ViewPropTypes,
     selected: PropTypes.bool,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: new Animated.Value(this.props.selected ? 1 : 0),
+    };
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    if (this.props.selected !== nextProps.selected) {
+      Animated.timing(this.state.selected, {
+        toValue: nextProps.selected ? 1 : 0,
+        duration: nextProps.duration === undefined ? 200 : nextProps.duration,
+        // delay: nextProps.selected ? 0 : 200,
+        useNativeDriver: true,
+      }).start();
+    }
+  }
+
   render() {
     let { selected, ...props } = this.props;
     return (
-      <View
+      <Animated.View
         {...props}
         pointerEvents={selected ? 'auto' : 'none'}
         removeClippedSubviews={!selected}
         style={[
           styles.sceneContainer,
-          selected ? null : styles.hiddenSceneContainer,
+          {
+            overflow: selected ? 'visible' : 'hidden',
+            opacity: this.state.selected,
+          },
           props.style,
         ]}>
         <StaticContainer shouldUpdate={selected}>
           {this.props.children}
         </StaticContainer>
-      </View>
+      </Animated.View>
     );
   }
 }
