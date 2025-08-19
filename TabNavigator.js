@@ -2,7 +2,6 @@
 
 import { Set } from 'immutable';
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
@@ -14,17 +13,8 @@ import StaticContainer from './StaticContainer';
 import Tab from './Tab';
 import TabBar from './TabBar';
 import TabNavigatorItem from './TabNavigatorItem';
-import ViewPropTypes from './config/ViewPropTypes';
 
 export default class TabNavigator extends React.Component {
-  static propTypes = {
-    ...ViewPropTypes,
-    sceneStyle: ViewPropTypes.style,
-    tabBarStyle: ViewPropTypes.style,
-    tabBarShadowStyle: TabBar.propTypes.shadowStyle,
-    hidesTabTouch: PropTypes.bool
-  };
-
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -144,11 +134,6 @@ export default class TabNavigator extends React.Component {
 }
 
 class SceneContainer extends React.Component {
-  static propTypes = {
-    ...ViewPropTypes,
-    selected: PropTypes.bool,
-  };
-
   render() {
     let { selected, ...props } = this.props;
     return (

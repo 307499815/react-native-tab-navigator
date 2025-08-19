@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -11,23 +10,9 @@ import {
   View,
 } from 'react-native';
 
-import ViewPropTypes from './config/ViewPropTypes';
 import Layout from './Layout';
 
 export default class Tab extends React.Component {
-  static propTypes = {
-    testID : PropTypes.string,
-    accessible: PropTypes.bool,
-    accessibilityLabel : PropTypes.string,
-    title: PropTypes.string,
-    titleStyle: Text.propTypes.style,
-    badge: PropTypes.element,
-    onPress: PropTypes.func,
-    hidesTabTouch: PropTypes.bool,
-    allowFontScaling: PropTypes.bool,
-    style: ViewPropTypes.style,
-  };
-
   constructor(props, context) {
     super(props, context);
 

@@ -1,14 +1,9 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export default class StaticContainer extends React.Component {
-  static propTypes = {
-    shouldUpdate: PropTypes.bool,
-  };
-
-  shouldComponentUpdate(nextProps: Object): boolean {
+  shouldComponentUpdate(nextProps) {
     return !!nextProps.shouldUpdate;
   }
 

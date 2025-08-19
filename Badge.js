@@ -9,7 +9,6 @@ import {
 import Layout from './Layout';
 
 export default class Badge extends React.Component {
-  static propTypes = Text.propTypes;
 
   constructor(props, context) {
     super(props, context);
